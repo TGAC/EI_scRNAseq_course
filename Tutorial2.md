@@ -1,17 +1,28 @@
-#Expression Matrix Quality Control
+# Expression Matrix Quality Control
 
-##Why QC?
-scRNA-seq is a powerful technology for analysing variability in cell populations. However, the combination of technical noise and intrinsic biological variability makes detecting technical artefacts particularly challenging. Removal of low-quality cells and detection of technical artefacts is critical for accurate downstream analysis.##General process for scRNA-seq QC
-Today you will take scRNA-seq data, examine them for low quality cells and filter out these cells leaving you with the best quality data for reliable downstream analysis. You will visualise the data in order to look at library size, number of expressed genes, percentage of mitochondrial gene expression, etc., use different filtering approaches, and look for confounding factors that may affect the interpretation of downstream analyses.A number of factors should be examined before downstream analyses, many of which we'll address today.###Low library size
+
+
+## Why QC?
+scRNA-seq is a powerful technology for analysing variability in cell populations. However, the combination of technical noise and intrinsic biological variability makes detecting technical artefacts particularly challenging. Removal of low-quality cells and detection of technical artefacts is critical for accurate downstream analysis.
+
+
+## General process for scRNA-seq QC
+Today you will take scRNA-seq data, examine them for low quality cells and filter out these cells leaving you with the best quality data for reliable downstream analysis. You will visualise the data in order to look at library size, number of expressed genes, percentage of mitochondrial gene expression, etc., use different filtering approaches, and look for confounding factors that may affect the interpretation of downstream analyses.
+
+
+A number of factors should be examined before downstream analyses, many of which we'll address today.
+
+### Low library size
 When cells are very degraded or absent from the library preparation, the number of reads sequenced from that library will be very low. It's important to remove these cells from downstream analyses.
 
-###Low number of expressed genes
+
+### Low number of expressed genes
 A low number of expressed genes may be a result of poor-quality cells (e.g. dying, degraded, damaged, etc), followed by high PCR amplification of the remaining RNA. Again, these cells should be removed from downstream analyses.
 
-###High mitochondrial gene content
+### High mitochondrial gene content
 High concentrations of mitochondrial genes are often a result of damaged cells where the endogenous RNA escapes or degrades. As mitochondria has its own cell membranes, it is often the last DNA/RNA in damaged cells to degrade and hence occurs in high quantities during sequencing.
 
-###Batch effect
+### Batch effect
 Large scRNA-seq projects usually need to generate data across multiple batches due to logistical constraints. However, the processing of different batches is often subject to variation, e.g., changes in operator, differences in reagent quality and concentration, the sequencing machine used, etc. This results in systematic differences in the observed expression in cells from different batches, which we refer to as “batch effects”. Batch effects are problematic as they can be major drivers of variation in the data, masking the relevant biological differences and complicating interpretation of the results.
 
 
@@ -21,7 +32,7 @@ You will use Galaxy to visualise scRNA-seq data, obtaining information about the
 ## Exercise 3 - Data QC
 You will use a pre-calculated expression matrix, created by the same workflow used previously, along with some additional metadata such as lists of control/mitochondrial genes and annotation of technical information for each sequencing library. You will visualise the data and carry out quality control filtering based on what you see in the plots. You will then look for confounding factors in the data.
 
-###Step 1: Loading your data
+### Step 1: Loading your data
 1. Start a new history, call it 'Single Cell 3' and then navigate your way to Shared Data > Data Libraries > Galaxy Courses > EI Single Cell 2020 >  and enter the 'Single Cell 3' data library. 
 2. You will see three datasets:  
 	- `expression_matrix.txt`   
@@ -41,7 +52,7 @@ You will use a pre-calculated expression matrix, created by the same workflow us
 The output of this tool is a SingleCellExperiment file, which contains all the information from the input files, along with a host of other quality control metrics, calculated from the input data. 
 
 
-###Step 2: Visualising your data
+### Step 2: Visualising your data
 Next, lets take a look at the data by plotting various properties to see what our data looks like.
 
 1. Select the on 'Scater: plot library QC' tool. There's only one parameter here, which is the output from the previous step, 'Scater Calculate QC metrics'. Hit 'Execute'.
@@ -58,10 +69,10 @@ Next, lets take a look at the data by plotting various properties to see what ou
 
 ![Read QC](Raw_reads_genes_dist.pdf)
 
-###Filtering your data
+### Filtering your data
 In Galaxy there are two filtering tools available. First, there's an 'automatic' filtering tool that uses PCA to identify outliers cells and remove them from the data. Second, there's a manual filtering tool where users can put a range of filtering parameters, informed by the previous plotting tool.
 
-####Step 3: Manual filtering
+### Step 3: Manual filtering
 
 First, you'll use the filtering tool, 'Scater: filter SCE'. We'll use information from the previous plots to inform the filtering parameters of this tool. Click on the tool and look at what parameters are required. You'll see a number of fields that require values. 
 
@@ -77,7 +88,7 @@ First, you'll use the filtering tool, 'Scater: filter SCE'. We'll use informatio
 The output from this tool will be a SingleCellExperiment file. If you click on the history name, the green history item will expand and you should see a summary of how many cells were filtered out at each step. We can run the same visualisations on this file as we did previously to see what effect our filtering has. Run the 'Scater: plot library QC' tool on your output file and look at the results.  
 How did the filtering go? Do you think it's done a good job? Have you removed too many cells? Too few cells? About right? Often, it's a matter of trial and error, where you would start off by being quite lenient (low parameters) and then increasing the stringency until you're happy with the results.
 
-####Step 4: Automatic (PCA) filtering
+### Step 4: Automatic (PCA) filtering
 Another filtering approach is to identify outliers in the data and remove them. PCA can be run once a SingleCellExperiment has been normalised, and outliers cells identified based on the pre-computed quality control metrics within the SingleCellExperiment object.
 
 1. Firstly, we need to do a bit of pre-processing. PCA does not like columns or rows of zeros (this equates to NaN). We need to filter out all cells that have no expressed genes and genes that are not expressed in any cells.
@@ -116,7 +127,7 @@ Compare the output between this and the manual filtering method. How do the two 
 When using these filtering approaches, it's probably best to use them the opposite way round - try PCA filtering first and then if that doesn't remove enough low-quality cells then use the manual filtering. You could actually pipeline them together - use PCA filtering first, visualise the output, and then use that to do further manual filtering.
 
 
-####Step 5: Confounder identification
+### Step 5: Confounder identification
 As discussed previously, technical artefacts can bias scRNA-seq analyses. Strong 'batch effects' can mask real biological differences in the data, so must be identified and removed from the data. Logging meta-data details such as date of library construction, sequencing batch, sample name, technical replicate, plate number, etc., is essential to identify batch effects in the data. We can use this information to visualise the data to examine it for clustering according to batch, rather than any real biological feature.
 
 Let's try it with our data
@@ -131,7 +142,7 @@ Do you see any obvious batch effect? Do any of the pool, individual, or cell_num
 
 
 
-##Exercises 4 and 5
+## Exercises 4 and 5
 
 In the following exercise you will examine two datasets stored in the Single Cell data library - Single Cell 4 and Single Cell 5. Import the data for each one into separate histories, calculate QC metrics and examine each (by visualising the data using the methods described above). Both of them have something you'd want to address before continuing downstream analyses. It might be some sort of QC problem, technical artifact, or real biological  variation. You will only need to use the Galaxy Scater plotting tools, so don't worry about filtering. What can you find with each dataset?
 Hint, for the PCA plots, you can shape, colour, or size your PCA plot points by using only one of the features (leaving the other fields blank). 
