@@ -36,14 +36,14 @@ We will start by analysing just one sample of scRNA-seq data. Make sure you unde
 
 ### Getting started
 
-In the history panel, click on the '+' icon to create a new history. A new, empty history will be created. Now, click on 'Unnamed history' and name it 'Single Cell 1' and hit the Return key.
+In the history panel, click on the `+` icon ('Create new history'). A new, empty history will be created. Now, click on 'Unnamed history' and name it 'Single Cell 1' and hit the Return key.
 
 ### Step 1: Getting the data
 
-1. We will start by importing the data into Galaxy. Click on 'Shared Data' (in the panel at the top of the page) and then click on 'Data Libraries'
-2. In the list of Data Libraries you will see one called 'Galaxy courses'. Click on this and you will see a couple of sub folders. You want the 'EI Single Cell 2020' folder. Click on this and you will see a number of folders. Click on the 'Single Cell 1' folder.
+1. We will start by importing the data into Galaxy. Click on `Shared Data` (in the panel at the top of the page) and then click on `Data Libraries`.
+2. In the list of Data Libraries you will see one called `Galaxy courses`. Click on this and you will see a couple of sub folders. You want the `EI Single Cell 2020` folder. Click on this and you will see a number of folders. Click on the `Single Cell 1` folder.
 3. You should see 3 files: `A1_R1.fastq.gz` and `A1_R2.fastq.gz` (which are Illumina paired-end sequences from a scRNA-seq experiment) and `Arabidopsis_thaliana.TAIR10.37.gtf` (which is a genome annotation).
-4. Select all the 3 files and then click on 'Export to History' on the menu at the top of the page and then 'as Datasets' in the dropdown box. Make sure the 'Single Cell 1' history is selected in the 'Select history' box below and click on 'Import'.
+4. Select all the 3 files and then click on `Export to History` on the menu at the top of the page and then `as Datasets` in the dropdown box. Make sure the `Single Cell 1` history is selected in the 'Select history' box below and click on `Import`.
 5. Click on the Home icon at the the top of the page to return to the main interface. The three items of data should now be in your history.
 
 Take a look at one of the `fastq.gz` files by clicking on the 'eye' icon to the right of the history item name.
@@ -61,7 +61,7 @@ Stop here. Remember to let the instructor know you've finished this step.
 
 The term 'mapping' refers to assigning short nucleotide sequences (like those found in Illumina reads) to identical (or near-identical) positions on a reference genome. Now that we have the scRNA-seq reads, we can go ahead and map them to the *Arabidopsis* reference with the splice-aware-aligner STAR. We will start off by going through the steps of analysing one library of scRNA-seq reads. Of course, normally, you would have tens, or hundreds (or even thousands!) of libraries.
 
-1.  At the top of the Tools panel, type 'STAR' in the `search tools` box. From the search results, select '**RNA STAR** Gapped-read mapper for RNA-seq data'. The interface for the tool should appear in the main window.
+1. At the top of the Tools panel, type 'STAR' in the `search tools` box. From the search results, select '**RNA STAR** Gapped-read mapper for RNA-seq data'. The interface for the tool should appear in the main window.
 2. Starting at the top of the page, under 'Single-end or paired-end reads' select `Paired-end (as individual datasets)`.
 3. You need to supply the correct forward and reverse reads to the program, so under 'RNA-Seq FASTQ/FASTA file, forward reads' select the `A1_R1.fastq.gz` file and `A1_R2.fastq.gz` for the 'reverse reads' file.
 4. Make sure that under 'Custom or built-in reference genome' the option `Use built-in index` is selected, and under 'Reference genome with or without an annotation' the option `use genome reference without builtin gene-model` is selected. Then select `Arabidopsis thaliana (TAIR10)` in the 'Select reference genome' box. Finally, under 'Gene model (gff3,gtf) file for splice junctions' select the `Arabidopsis_thaliana.TAIR10.37.gtf` dataset. When passed a genome annotation file, STAR will extract splice junctions from this file and use them to greatly improve the accuracy of the mapping. While this is optional, and STAR can be run without annotations, using annotations is highly recommended whenever they are available.
@@ -69,7 +69,7 @@ The term 'mapping' refers to assigning short nucleotide sequences (like those fo
 
 Click `Execute`.
 
-Three new history items will appear in the history panel. They will be grey at first and then turn yellow to say that the job is executing. When the job has executed successfully the history items will turn green. If they turn red, seek help. This step should take a few minutes to complete.
+Three new history items will appear in the history panel. They will be grey at first and then turn orange to say that the job is executing. When the job has executed successfully the history items will turn green. If they turn red, seek help. This step should take a few minutes to complete.
 
 Once finished, you will see three new history items (output datasets), sequentially numbered, all starting with something like `4: RNA STAR on data 3, data 2 and data 1:` . There should be a `log` file, a `splice junctions.bed` file and a `mapped.bam` file.
 
@@ -140,7 +140,7 @@ We now want to calculate the expression of each gene in the SAM alignment file. 
 We will use the Galaxy tool 'featureCounts', part of the SubRead package, to count the number of reads aligned to each gene annotated in the `Arabidopsis_thaliana.TAIR10.37.gtf` file. In the tools search box, search and select the '**featureCounts**' tool.
 
 1. We will be examining the reads mapped to the `RNA STAR....mapped.bam` file, so in the 'Alignment file' box, make sure that dataset is selected.
-2. The data is unstranded (i.e. it originates from both strands of the genome, so make sure 'unstranded' is selected for 'Specify strand information'.
+2. The data is unstranded (i.e. it originates from both strands of the genome, so make sure `Unstranded` is selected for 'Specify strand information'.
 3. We uploaded the gene annotation to the history, so change 'Gene annotation file' to `in your history`.
 4. The 'Gene annotation file' should be the `Arabidopsis_thaliana.TAIR10.37.gtf` dataset.
 5. Check that `Gene-ID "\t" read-count (MultiQC/DESeq2/edgeR/limma-voom compatible)` is selected as 'Output format'.
@@ -153,37 +153,37 @@ Once you're happy that the number reads assigned to your gene models is sufficie
 
 ## Exercise 2 - A multi-sample example
 
-You've gone across the process of calculating gene expression for a single example, but obviously in real life You'll have many samples. Galaxy is an ideal tool for this as you can work on many samples at the same time. Now you'll go across the process of calculating gene expression of a number of samples. You will only be running 5 samples in this exercise as to run hundreds of samples would take too long.
+You have gone across the process of calculating gene expression for a single example, but obviously in real life you will have many samples. Galaxy is an ideal tool for this as you can work on many samples at the same time. Now we will proceed to calculate the gene expression of a number of samples. We will only be running 5 samples in this exercise as to run hundreds of samples would take too long, but the process would be the same.
 
 ### Galaxy workflows
 
 One of the many great features of Galaxy is that you can create pre-defined pipelines called 'workflows' that set out how data flows from one tool to another, what version of each tool is required and what type of data is allowed to enter and exit each tool. These workflows can then be shared or published, for example as part of the supplementary data in a paper. Researchers can then download the workflow and replicate what you've done.
 
-You'll use a workflow to run the previous analysis across five samples.
+We will use a workflow to run the previous analysis across five samples.
 
 ### Importing the data
 
-1. Create a new history by clicking on the 'cog' icon at the top of the History panel and then click on 'Create New'. Then click on the words 'Unnamed history' and rename it 'Single Cell 2'. Hit return.
-2. Navigate to 'Shared Data' > 'Data Libraries' > 'Galaxy courses' > 'EI Single Cell 2020' > 'Single Cell 2'
-3. Select all of the `fastq.gz` files and then click on 'Export to History' > 'as a Collection'.
-4. Change the 'Collection type' to 'List of Pairs' and click 'Continue'. This will bring you to the pairing dialog. In the '0 unpaired forward' field, change '\_1' to 'R1'. In the '0 unpaired reverse' field, change '\_2' to 'R2'. Then click on 'Auto-pair'. The R1 and R2 pairs for each of the A1 - A5 datasets should now be paired (double-check that they are). At the bottom of the dialog enter a 'Name' for your data collection.  Call it '5 sample pairs' and click on 'Create list'
-5. Next uncheck all of the datasets and select the `Arabidopsis_thaliana.TAIR10.37.gtf` file. Again 'To History' > 'As dataset' > 'Import'
-6. Next, click on the Home icon to take you back to the Galaxy homepage.
+1. Create a new history by clicking on the `+` icon at the top of the history panel. Then click on the words 'Unnamed history', rename it `Single Cell 2`, and hit the Return key.
+2. Navigate to `Shared Data` > `Data Libraries` > `Galaxy courses` > `EI Single Cell 2020` > `Single Cell 2`.
+3. Select all of the `fastq.gz` files and then click on `Export to History` > `as a Collection`.
+4. Change the 'Collection type' to `List of Pairs` and click `Continue`. This will bring you to the pairing dialog. In the '0 unpaired forward' field, change `_1` to `_R1`. In the '0 unpaired reverse' field, change `_2` to `_R2`. Then click on `Auto-pair`. The R1 and R2 pairs for each of the A1 - A5 datasets should now be paired (double-check that they are). At the bottom of the dialog enter a 'Name' for your data collection. Call it '5 sample pairs' and click on `Create collection`.
+5. Next uncheck all of the datasets and select the `Arabidopsis_thaliana.TAIR10.37.gtf` file. Again `Export to History` > `as Datasets` > `Import`.
+6. Next, click on the Home icon to take you back to the Galaxy homepage. You should have 2 items shown in your history now, one of which is the `5 sample pairs` 'dataset collection', i.e. an organised set of datasets, in this case a *list* of 5 *paired* read sequence files.
 
 ### Running the workflow
 
-You now want to run the same steps on the collection of fastq files that you ran in your single example earlier. You can automate this by using workflows.
+You now want to run the same steps on the collection of FASTQ files that you ran in your single example earlier. You can automate this by using workflows.
 
-1. In the top menu, navigate to 'Shared Data' > 'Workflows'
-2. You will see a list of published workflows, search for one called 'Single Cell reads to expression matrix' with owner 'grahametherington'.
-3. Click on the downward facing arrow to the right of the box and select 'Run'
+1. In the top menu, navigate to `Shared Data` > `Workflows`
+2. You will see a list of published workflows, search for one called 'Single Cell reads to expression matrix' with owner 'nsoranzo'.
+3. Click on the downward facing arrow to the right of the box and select `Run`
 4. The workflow interface will appear. There's only two options that need selecting here - the reads and the annotation.
-5. Under '1. Input dataset', make sure the Arabidopsis GTF annotation file is selected.
-6. Under '2. Input dataset collection', make sure your '5 sample pairs' collection is selected.
-7. If you click on 'Expand to full workflow form", you can see the tools that you used on the single sample in the rest of the workflow below, along with some text manipulation tools to create the expression matrix.
-8. Click on 'Run workflow' at the top of the page.
+5. Under 'List of paired reads', make sure your `5 sample pairs` collection is selected.
+6. Under 'Genome annotation', make sure the *Arabidopsis* GTF annotation file is selected.
+7. If you click on `Expand to full workflow form`, you can see the tools that you used on the single sample in the rest of the workflow below, along with some text manipulation tools to create the expression matrix.
+8. Click on `Run workflow` at the top of the page.
 
-In a few seconds new jobs will appear in the history and some will start running (turn yellow). These have been submitted by the workflow. As the input of some of the tools are dependent on the output of others, downstream tools will remain grey until their upstream tools have finished running. Wait for all history items to turn green (this should take about 20 minutes) and then take a look at the last dataset. This is an example of a small expression matrix, the input of all further scRNA-seq analyses. The rows of the expression matrix start with gene names (e.g. AT1G01010), and the columns start with sample names (e.g. A1, A2, etc.). The rest of the matrix represents read counts for each gene in each sample.
+In a few seconds new jobs will appear in the history and some will start running (turn orange). These have been submitted by the workflow. As the input of some of the tools are dependent on the output of others, downstream tools will remain grey until their upstream tools have finished running. Wait for all history items to turn green (this should take about 20 minutes) and then take a look at the last dataset. This is an example of a small expression matrix, the input of all further scRNA-seq analyses. The rows of the expression matrix start with gene names (e.g. AT1G01010), and the columns start with sample names (e.g. A1, A2, etc.). The rest of the matrix represents read counts for each gene in each sample.
 
 
 ## Summary
