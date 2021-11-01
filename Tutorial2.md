@@ -67,7 +67,7 @@ Next, lets take a look at the data by plotting various properties to see what ou
 	
 
 
-![Read QC](QCPlot.png)
+![Read QC](QCPlot2.png)
 
 ### Filtering your data
 In Galaxy there are two filtering tools available. First, there's an 'automatic' filtering tool that uses PCA to identify outliers cells and remove them from the data. Second, there's a manual filtering tool where users can put a range of filtering parameters, informed by the previous plotting tool.
